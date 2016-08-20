@@ -1,0 +1,62 @@
+<!--
+  Copyright (c) 2016 Kota Suizu
+  Released under the MIT license
+  http://opensource.org/licenses/mit-license.php
+-->
+
+<script type="text/x-red" data-template-name="Aggregator">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-aggregations"><i class="fa fa-random"></i> Aggregations</label>
+        <input id="node-input-aggregations" style="width: 60px;" value="1">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Aggregator">
+    <p>This node to aggregate messages from multiple nodes</p>
+    <p>
+        The input message contains the following properties:
+        <ul>
+            <li><code>msg.CorrelId</code> is the aggregation ID. The message you want to aggregate, it is necessary to set the same key.</li>
+            <li>Aggregation target message is <code>msg.payload</code>.</li>
+        </ul>
+    </p>
+    <p>
+        The output message contains the following properties:
+        <ul>
+            <li><code>msg.payload</code> is Array list. Within the aggregation array, it has been each of the payload assignment.</li>
+        </ul>
+    </p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Aggregator', {
+        category: 'function',
+        defaults: {
+            name: {
+                value: ""
+            },
+            aggregations: {
+                value: 2
+            }
+        },
+        color: "#00A0E2",
+        inputs: 1,
+        outputs: 1,
+        icon: "aggregator-end.png",
+        oneditprepare: function() {
+            $("#node-input-aggregations").spinner({
+                min: 2
+            });
+        },
+        label: function() {
+            return this.name || "Aggregator";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        }
+    });
+</script>
